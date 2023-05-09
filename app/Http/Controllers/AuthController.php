@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\Foundation\Application
+    public function index()
     {
+        if (Auth::check()) {
+            return redirect()->route('profile', ['username' => Auth::user()->username]);
+        }
         return view('index');
     }
 

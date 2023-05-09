@@ -23,5 +23,12 @@ Route::get('/logout', function () {
 })->name('logout');
 
 Route::get('/profile/{username}', function ($username) {
+    if (Auth::user()->username !== $username) {
+        return redirect('/profile/'.Auth::user()->username);
+    }
     return view('profile', ['username' => $username]);
 })->middleware('auth')->name('profile');
+
+Route::get('/game/uno/create', function() {
+    return view('game.uno');
+})->middleware('auth')->name('game.uno');

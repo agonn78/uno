@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="{{ asset('css/styles.profile.css') }}" />
-    <title>Mon profil - </title>
+    <title>Mon profil - {{ $username }}</title>
 </head>
 <body>
 <div class="shadow">
@@ -16,7 +16,7 @@
     </div>
 
     <div class="games">
-        <div class="card" id="uno" onclick="javascript:void(1);">
+        <div class="card" id="uno" onclick="gotoUno();">
             <div class="card__content">
                 <div class="card__title">UNO: THE GAME</div>
                 <div class="card__subtitle">
@@ -59,5 +59,6 @@
 
 <script src="{{ asset('scripts/particles.js') }}"></script>
 <script src="{{ asset('scripts/animation.js') }}"></script>
+<script src="{{ asset('scripts/profile.js') }}"></script>
 </body>
 </html>
