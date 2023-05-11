@@ -1,35 +1,14 @@
-var particles = Particles.init({
-	selector: '.background',
-  sizeVariations: 4,
-  maxParticles: 200,
-  color: ['#DBEDF3', '#DBEDF3', '#DBEDF3'],
-  connectParticles: true
-});
+var registerShow = false;
+var button = document.getElementById("clickButton");
+var clickButton = function() {
 
-var loginUp = true;
-var toggleSignup = function()
-{
-    if (loginUp)
-    {
-        let el = document.querySelector("#login");
-        el.classList.add("hidden");
-        el.classList.remove("card");
-
-        let sign = document.querySelector("#signup");
-        sign.classList.remove("hidden");
-        sign.classList.add("card");
-
-        loginUp = false;
+    if (registerShow) {
+        document.getElementById("registerCard").style.display = "none";
+        document.getElementById("loginCard").style.display = "block";
+        registerShow = false;
+    } else {
+        document.getElementById("registerCard").style.display = "block";
+        document.getElementById("loginCard").style.display = "none";
+        registerShow = true;
     }
-    else
-    {
-        let el = document.querySelector("#login");
-        el.classList.remove("hidden");
-        el.classList.add("card");
-
-        let sign = document.querySelector("#signup");
-        sign.classList.add("hidden");
-        sign.classList.remove("card");
-        loginUp = true;
-    }
-};
+}

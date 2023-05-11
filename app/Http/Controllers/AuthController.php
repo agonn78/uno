@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -19,6 +20,7 @@ class AuthController extends Controller
     {
         $cred = $request->only('username', 'password');
         if (Auth::attempt($cred)) {
+            DB::table('users')->where('username', $request->username)->update(['updated_at' => now()]);
             return redirect()->route('profile', ['username' => Auth::user()->username]);
         }
 
