@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [AuthController::class, 'index'])->name('index');
+Route::get('/user/auth', function() {
+    return redirect('/');
+});
 Route::post('/user/auth', [AuthController::class, 'login'])->name('auth');
 Route::post('/user/signup', [AuthController::class, 'register'])->name('register');
 Route::get('/user/logout', function () {
@@ -22,12 +25,8 @@ Route::get('/user/logout', function () {
     return redirect('/');
 })->name('logout');
 
-Route::get('/profile/{username}', function ($username) {
-    if (Auth::user()->username !== $username) {
-        return redirect('/profile/'.Auth::user()->username);
-    }
-    return view('profile', ['username' => $username, 'user' => Auth::user()]);
-})->middleware('auth')->name('profile');
+Route::get('/profile/{username}', [\App\Http\Controllers\ProfileController::class, 'index'])
+    ->middleware('auth')->name('profile');
 
 Route::get('/game/uno/create', function() {
     return view('game.uno');

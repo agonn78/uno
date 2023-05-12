@@ -10,7 +10,8 @@
 body {
 
     width: 100vw;
-    height: 100vh;
+    min-height: 100%;
+    position:absolute;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -142,4 +143,96 @@ body {
 
 .user__stats ul li a {
     font-size: 12px;
+}
+
+.card__scoreboard {
+    padding: 20px;
+    line-height: 1.3;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.card__title {
+    margin-bottom: 25px;
+}
+
+.card__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card__content__player {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 25px;
+    align-items: center;
+}
+
+.card__content__player:first-child {
+    zoom: 1.2;
+}
+
+.card__content__player__medail
+{
+    width: 20px;
+    height: 20px;
+    background-image: url('/images/medaille.png');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.card__content__player__logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: url('/images/user.png');
+    background-size: cover;
+    margin-right: 10px;
+}
+
+.card__content__player__stats ul {
+    list-style: none;
+}
+
+.card__content__player__stats ul li {
+    font-size: 10px;
+    opacity: 70%;
+    line-height: 1.3;
+}
+
+.card__games__title {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    font-family: Montserrat, sans-serif;
+    line-height: 1.3;
+}
+
+.card__games {
+    padding: 20px;
+}
+
+.card__games__title__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 30px;
+    font-size: 12px;
+    background-color: #7F0FC3;
+    border-radius: 2px;
+}
+
+.card__games__title__button a {
+    text-decoration: none;
+    padding: 10px;
+    color: white;
 }
