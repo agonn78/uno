@@ -73,6 +73,35 @@
                 <a href="/game/create">Créer une partie</a>
             </div>
         </div>
+
+        <div class="card__games__body">
+
+                @foreach($games as $game)
+                    <div class="card__games__list">
+                    <div class="card__games__list__img"></div>
+                    <div class="card__games__list__text">
+                        <div style="font-size:16px;">Partie de {{ $game['owner']['name'] }}</div>
+                        <div class="card__games__list__text">{{ $game['nbPlayers'] }} joueurs dans la partie</div>
+                        <div class="card__games__list__text">
+                            <?php
+                                $status = $game['gameState'];
+                                $gameStateLabel = match($status) {
+                                    'ONGOING' => 'En cours',
+                                    'COMPLETED' => 'Terminée',
+                                    'WAITING' => 'En attente',
+                                    default => 'Inconnu'
+                                    };
+
+                                $locked = $game['password'];
+                                $lockedLabel = "";
+                                if (empty($locked)) $lockedLabel = "Ouverte";
+                                else $lockedLabel = "Fermée"; ?>
+                            {{ $gameStateLabel }} | {{ $lockedLabel }}
+                        </div>
+                    </div>
+                    </div>
+                @endforeach
+        </div>
     </div>
 </div>
 </body>

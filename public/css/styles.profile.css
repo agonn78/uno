@@ -236,3 +236,33 @@ body {
     padding: 10px;
     color: white;
 }
+
+.card__games__body {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card__games__list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid #D9D9D9;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.card__games__list__img {
+    width: 80px;
+    height: 80px;
+    background-image: url('/images/room.png');
+    background-size: cover;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.55));
+    margin-right: 30px;
+}
+
+.card__games__list__text {
+    font-size: 14px;
+    line-height: 1.3;
+    opacity: 0.7;
+}
