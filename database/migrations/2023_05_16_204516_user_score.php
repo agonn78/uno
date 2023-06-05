@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('user_stats', function(Blueprint $table) {
+        Schema::create('user_stats', function(Blueprint $table) {
             $table->integer('id')->unsigned()->index();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->char('user_uuid', 36);
+            $table->foreign('user_uuid')->references('uuid')->on('users');
             $table->integer('games_played')->default(0);
             $table->integer('games_won')->default(0);
             $table->integer('games_lost')->default(0);

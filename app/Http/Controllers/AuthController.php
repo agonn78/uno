@@ -35,6 +35,7 @@ class AuthController extends Controller
         ]);
 
         $user = new \App\Models\User();
+        $user->uuid = \Illuminate\Support\Str::uuid();
         $user->username = $request->username;
         $user->password = bcrypt($request->password);
         $user->email = $request->username. '@gmail.com';

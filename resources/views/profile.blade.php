@@ -2,9 +2,56 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/styles.profile.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Mon profil - {{ $user->username }}</title>
 </head>
+
+<script type="text/javascript">
+    function createGame() {
+        $.ajax({
+            header: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            url: 'http://127.0.0.1:8080/create',
+            type: 'POST',
+            data: {
+                username: '{{ $user->username }}',
+                uuid: '{{ $user->uuid }}',
+            },
+            success: function (data) {
+                if (data === "error") {
+                    alert("Vous avez déjà une partie en cours !");
+                    return;
+                }
+                window.location.href = "http://127.0.0.1:8000/game/" + data;
+            }
+        });
+    }
+
+    function joinGame(id)
+    {
+        $.ajax({
+           url: 'http://127.0.0.1:8080/games/' + id + '/join',
+            type: 'POST',
+            data: {
+                username: '{{ $user->username }}',
+                uuid: '{{ $user->uuid }}',
+            },
+            success: function (data) {
+                if (data === "error") {
+                    alert("Vous avez déjà une partie en cours !");
+                    return;
+                }
+
+                window.location.href = "http://127.0.0.1:8000/game/" + id;
+            }
+        });
+
+        return 0;
+    }
+</script>
 
 <body>
 <div class="ellipse"></div>
@@ -70,7 +117,7 @@
         <div class="card__games__title">
             <div class="card__games__title__text">Parties en ligne</div>
             <div class="card__games__title__button">
-                <a href="/game/create">Créer une partie</a>
+                <a href="#" onclick="createGame();">Créer une partie</a>
             </div>
         </div>
 
@@ -98,6 +145,9 @@
                                 else $lockedLabel = "Fermée"; ?>
                             {{ $gameStateLabel }} | {{ $lockedLabel }}
                         </div>
+                    </div>
+                    <div class="card__games__join">
+                        <a href="javascript:void(0);" onclick="joinGame('{{ $game['uuid'] }}')">Rejoindre</a>
                     </div>
                     </div>
                 @endforeach

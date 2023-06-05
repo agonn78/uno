@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,20 +15,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [AuthController::class, 'index'])->name('index');
-Route::get('/user/auth', function() {
-    return redirect('/');
+Route::middleware(['cors'])->group(function() {
+
+    Route::get('/', [AuthController::class, 'index'])->name('index');
+    Route::get('/user/auth', function() {
+        return redirect('/');
+    });
+    Route::post('/user/auth', [AuthController::class, 'login'])->name('auth');
+    Route::post('/user/signup', [AuthController::class, 'register'])->name('register');
+    Route::get('/user/logout', function () {
+        Auth::logout();
+        return redirect('/');
+    })->name('logout');
+
+    Route::get('/profile/{username}', [\App\Http\Controllers\ProfileController::class, 'index'])
+        ->middleware('auth')->name('profile');
+
+
+    Route::get('/game/{uuid}', [\App\Http\Controllers\UnoController::class, 'index'])
+        ->middleware('auth')->name('game');
 });
-Route::post('/user/auth', [AuthController::class, 'login'])->name('auth');
-Route::post('/user/signup', [AuthController::class, 'register'])->name('register');
-Route::get('/user/logout', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout');
-
-Route::get('/profile/{username}', [\App\Http\Controllers\ProfileController::class, 'index'])
-    ->middleware('auth')->name('profile');
-
-Route::get('/game/uno/create', function() {
-    return view('game.uno');
-})->middleware('auth')->name('game.uno');

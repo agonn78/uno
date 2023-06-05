@@ -17,4 +17,12 @@ class ProfileController extends Controller
         $games = $response->json();
         return view('profile', ['user' => $user, 'scoreboard' => $scoreboard, 'games' => $games]);
     }
+
+    public function createGame()
+    {
+        $user = Auth::user();
+        $request = Http::post('http://127.0.0.1:8080/create', ['username' => $user->username]);
+        $res = $request->json();
+        return redirect('/game/' . $res['uuid']);
+    }
 }
