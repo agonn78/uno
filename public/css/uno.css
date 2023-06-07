@@ -1,4 +1,5 @@
 * { box-sizing: border-box; margin: 0; padding: 0;}
+*:before, *:after { box-sizing: border-box;}
 
 body {
     width: 100%;
@@ -123,6 +124,7 @@ h3 {
     margin-left: -25px;
     margin-right: -25px;
     word-wrap: break-word;
+    font-family: sans-serif;
 }
 
 .black {
@@ -217,4 +219,105 @@ h3 {
     margin-bottom: -110px;
     width: 140px;
     height: 100px;
+}
+
+.active {
+    font-weight: bold;
+}
+
+.card:before {
+    top: 15px;
+    left: 10px;
+}
+
+.card:after {
+    bottom: 15px;
+    right: 10px;
+}
+
+.card:before, .card:after {
+    display: inline-block;
+    position: absolute;
+    line-height: 0;
+    font-size: 20px;
+    color:#fff;
+    text-shadow: 1px 1px 0 #000000, -1px -1px 0 #000000, -1px 1px 0 #000000, 1px -1px 0 #000000, 1px 0 0 #000000, -1px 0 0 #000000, 0 -1px 0 #000000, 0 1px 0 #000000, 2px 2px 0 #000000;
+}
+
+.card.num-1:before, .card.num-1:after {
+    content: "1";
+}
+
+.card.num-2:before, .card.num-2:after {
+    content: "2";
+}
+
+.card.num-3:before, .card.num-3:after {
+    content: "3";
+}
+
+.card.num-4:before, .card.num-4:after {
+    content: "4";
+}
+
+.card.num-5:before, .card.num-5:after {
+    content: "5";
+}
+
+.card.num-6:before, .card.num-6:after {
+    content: "6";
+}
+
+.card.num-7:before, .card.num-7:after {
+    content: "7";
+}
+
+.card.num-8:before, .card.num-8:after {
+    content: "8";
+}
+
+.card.num-9:before, .card.num-9:after {
+    content: "9";
+}
+
+.card.num-0:before, .card.num-0:after {
+    content: "0";
+}
+
+.my-card {
+    top: 0;
+    transition: 0.5s ease, margin-right 0.5s, margin-left 0.5s;
+    transition-delay: 0.1s;
+}
+
+.blue {
+    color: #0063b3;
+}
+
+.green {
+    color: #18a849;
+}
+
+.yellow {
+    color: #e6ca1e;
+}
+
+.red {
+    color: #c72a18;
+}
+
+.card.yellow .inner {
+    background-color: #e6ca1e;
+}
+
+.card.green .inner {
+    background-color: #18a849;
+}
+
+.card.blue .inner {
+    background-color: #0063b3;
+}
+
+.card.red .inner {
+    background-color: #c72a18;
 }

@@ -14,6 +14,7 @@ class UnoController extends Controller
         if(empty($response)) {
             return redirect('/');
         }
-        return view('game.uno', ['uuid' => $uuid]);
+        $user = auth()->user();
+        return view('game.uno', ['uuid' => $uuid, 'playerUuid' => $user->uuid, 'game' => $response, 'user' => $user]);
     }
 }

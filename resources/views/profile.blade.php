@@ -14,7 +14,7 @@
             header: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
-            url: 'http://127.0.0.1:8080/create',
+            url: 'http://134.59.143.33:8080/create',
             type: 'POST',
             data: {
                 username: '{{ $user->username }}',
@@ -25,7 +25,7 @@
                     alert("Vous avez déjà une partie en cours !");
                     return;
                 }
-                window.location.href = "http://127.0.0.1:8000/game/" + data;
+                window.location.href = "http://134.59.143.33:8000/game/" + data;
             }
         });
     }
@@ -33,7 +33,7 @@
     function joinGame(id)
     {
         $.ajax({
-           url: 'http://127.0.0.1:8080/games/' + id + '/join',
+           url: 'http://134.59.143.33:8080/games/' + id + '/join',
             type: 'POST',
             data: {
                 username: '{{ $user->username }}',
@@ -41,11 +41,11 @@
             },
             success: function (data) {
                 if (data === "error") {
-                    alert("Vous avez déjà une partie en cours !");
+                    alert("Une erreur est survenue! (Code 0x001) !");
                     return;
                 }
 
-                window.location.href = "http://127.0.0.1:8000/game/" + id;
+                window.location.href = "http://134.59.143.33:8000/game/" + id;
             }
         });
 
@@ -127,14 +127,14 @@
                     <div class="card__games__list">
                     <div class="card__games__list__img"></div>
                     <div class="card__games__list__text">
-                        <div style="font-size:16px;">Partie de {{ $game['owner']['name'] }}</div>
+                        <div style="font-size:16px;">Partie de {{ $game['owner']['username'] }}</div>
                         <div class="card__games__list__text">{{ $game['nbPlayers'] }} joueurs dans la partie</div>
                         <div class="card__games__list__text">
                             <?php
-                                $status = $game['gameState'];
+                                $status = $game['state'];
                                 $gameStateLabel = match($status) {
-                                    'ONGOING' => 'En cours',
-                                    'COMPLETED' => 'Terminée',
+                                    'PLAYING' => 'En cours',
+                                    'FINISHED' => 'Terminée',
                                     'WAITING' => 'En attente',
                                     default => 'Inconnu'
                                     };
@@ -147,7 +147,7 @@
                         </div>
                     </div>
                     <div class="card__games__join">
-                        <a href="javascript:void(0);" onclick="joinGame('{{ $game['uuid'] }}')">Rejoindre</a>
+                        <a href="javascript:void(0);" onclick="joinGame('{{ $game['id'] }}')">Rejoindre</a>
                     </div>
                     </div>
                 @endforeach

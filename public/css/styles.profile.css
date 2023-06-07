@@ -159,6 +159,7 @@ body {
 
 .card__content {
     display: flex;
+    overflow-y: scroll;
     flex-direction: column;
     justify-content: center;
 }
@@ -172,6 +173,11 @@ body {
 
 .card__content__player:first-child {
     zoom: 1.2;
+    margin-top: 70px;
+}
+
+.card__content__player:last-child {
+    margin-bottom: 0px;
 }
 
 .card__content__player__medail
