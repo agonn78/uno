@@ -3,6 +3,8 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('scripts/socket.io.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/alertify.css') }}"/>
+    <script src="{{ asset('scripts/alertify.min.js') }}"></script>
     <meta charset="utf-8">
 
     <link rel="stylesheet" href="{{ asset('css/uno.css') }}">

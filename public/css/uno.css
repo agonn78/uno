@@ -321,3 +321,168 @@ h3 {
 .card.red .inner {
     background-color: #c72a18;
 }
+
+.card__inner__plus4 {
+    width: 26px;
+    height: 44px;
+    float: left;
+    background: #000;
+    border-radius: 5px;
+    display: table;
+    box-sizing: border-box;
+    padding: 3px;
+    margin: 10px;
+    box-shadow: 0 0 10px #000;
+    text-align: center;
+}
+
+.card__inner__plus4__green {
+    color: #18a849;
+}
+
+.card__plus4__green {
+    position: absolute;
+    left: 15px;
+    top: 90px;
+}
+
+.card__inner__plus4__red {
+    color: #c72a18;
+}
+
+.card__plus4__red {
+    position: absolute;
+    left: 45px;
+    top: 75px;
+}
+
+.card__inner__plus4__blue {
+    color: #0063b3;
+}
+
+.card__plus4__blue {
+    position: absolute;
+    left: 30px;
+    top: 60px;
+}
+
+.card__inner__plus4__yellow {
+    color: #e6ca1e;
+}
+
+.card__plus4__yellow {
+    position: absolute;
+    left: 60px;
+    top: 45px;
+}
+
+.card.plus-4:after {
+    content: "+4";
+}
+
+.card-plus2-bottom-left {
+    position: absolute;
+    left: 30px;
+    top: 80px;
+}
+
+.card-plus2-top-right {
+    position: absolute;
+    left: 45px;
+    top: 50px;
+}
+
+.card__inner__plus2 {
+    width: 26px;
+    height: 44px;
+    float: left;
+    background: #000;
+    border-radius: 5px;
+    display: table;
+    box-sizing: border-box;
+    padding: 3px;
+    margin: 10px;
+    box-shadow: 0 0 10px #000;
+    text-align: center;
+}
+
+.skip {
+    font-size: 55px;
+}
+
+.card.skip:before, .card.skip:after {
+    content: "⊘";
+}
+
+.card.draw2:before, .card.draw2:after {
+    content: "+2";
+}
+
+
+.card.reverse {
+    font-size: 73px;
+}
+
+.card.reverse .mark {
+    transform: rotate(-45deg);
+}
+
+.card.reverse:before, .card.reverse:after {
+    content: "⇄";
+    transform: rotate(-45deg);
+}
+
+.card.wild:before,
+.card.wild:after {
+    content: "W";
+}
+
+
+/* Wild Card Circle */
+.circle-container {
+    width: 94px;
+    height: 130px;
+    float: left;
+    position: absolute;
+    left: 10px;
+    top: 24px;
+    z-index: 0.5;
+    transform: rotate(18deg);
+    transform: skew(-9deg, 0);
+}
+
+.quarter {
+    width: 47px;
+    height: 65px;
+}
+
+.top-left {
+    border-top-left-radius: 200px;
+    background: #c72a18;
+    float: left;
+}
+
+.top-right {
+    border-top-right-radius: 200px;
+    background: #0063b3;
+    float: right;
+}
+
+.bottom-left {
+    border-bottom-left-radius: 200px;
+    background: #e6ca1e;
+    float: left;
+}
+
+.bottom-right {
+    border-bottom-right-radius: 200px;
+    background: #18a849;
+    float: right;
+}
+
+.my-card:hover {
+    cursor: pointer;
+    top: -20px;
+    margin-right: 10px;
+    margin-left: 10px;
+}

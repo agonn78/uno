@@ -57,6 +57,205 @@ function getValueStringToInteger(value)
     return 0;
 }
 
+function createSpecificCard(value, color, type, self)
+{
+    let card = document.createElement("div");
+    if (value === "NONE")
+    {
+        if (type === "SKIP")
+        {
+            card.classList.add("card");
+            card.classList.add("skip");
+            card.classList.add(color.toLowerCase());
+            if (self) card.classList.add("my-card");
+
+            let inner = document.createElement("span");
+            inner.classList.add("inner");
+
+            let span = document.createElement("span");
+            span.classList.add("mark");
+            span.innerHTML = "⊘";
+            span.style.backgroundColor = "white";
+
+            inner.appendChild(span);
+            card.appendChild(inner);
+            return card;
+        }
+        else if (type === "DRAW_TWO")
+        {
+            card.classList.add("card");
+            card.classList.add("draw2");
+            card.classList.add(color.toLowerCase());
+            if (self) card.classList.add("my-card");
+
+            let inner = document.createElement("span");
+            inner.classList.add("inner");
+
+            let span = document.createElement("span");
+            span.classList.add("mark");
+            span.style.color = "white";
+            span.style.backgroundColor = "white";
+            span.style.textShadow = "rgb(255,255,255) 1px 1px 1px";
+            span.innerHTML = "_";
+            inner.appendChild(span);
+
+            let div = document.createElement("div");
+            div.classList.add("card__inner__plus2");
+            div.classList.add("card-plus2-bottom-left");
+
+            let spandiv = document.createElement("span");
+            spandiv.classList.add("inner");
+
+            div.appendChild(spandiv);
+            span.appendChild(div);
+
+            let div2 = document.createElement("div");
+            div2.classList.add("card__inner__plus2");
+            div2.classList.add("card-plus2-top-right");
+
+            let spandiv2 = document.createElement("span");
+            spandiv2.classList.add("inner");
+
+            div2.appendChild(spandiv2);
+            span.appendChild(div2);
+
+            card.appendChild(inner);
+            return card;
+        }
+        else if (type === "WILD")
+        {
+            card.classList.add("card");
+            card.classList.add("wild");
+            card.classList.add("black");
+            if (self) card.classList.add("my-card");
+
+            let inner = document.createElement("span");
+            inner.classList.add("inner");
+
+            let span = document.createElement("span");
+            span.classList.add("mark");
+            span.style.color = "white";
+            span.style.backgroundColor = "white";
+            span.style.textShadow = "rgb(255,255,255) 1px 1px 1px";
+            span.innerHTML = "_";
+
+            /* circle */
+            let div = document.createElement("div");
+            div.classList.add("circle-container");
+
+            let quarter1 = document.createElement("div");
+            quarter1.classList.add("quarter");
+            quarter1.classList.add("top-left");
+
+            let quarter2 = document.createElement("div");
+            quarter2.classList.add("quarter");
+            quarter2.classList.add("top-right");
+
+            let quarter3 = document.createElement("div");
+            quarter3.classList.add("quarter");
+            quarter3.classList.add("bottom-left");
+
+            let quarter4 = document.createElement("div");
+            quarter4.classList.add("quarter");
+            quarter4.classList.add("bottom-right");
+
+            let inner2 = document.createElement("span");
+            inner2.classList.add("inner");
+
+            div.appendChild(quarter1);
+            div.appendChild(quarter2);
+            div.appendChild(quarter3);
+            div.appendChild(quarter4);
+            div.appendChild(inner2);
+
+            span.appendChild(div);
+            inner.appendChild(span);
+            card.appendChild(inner);
+            return card;
+        }
+        else if (type === "WILD_DRAW_FOUR")
+        {
+            card.classList.add("card");
+            card.classList.add("plus-4");
+            card.classList.add("black");
+            if (self) card.classList.add("my-card");
+            let inner = document.createElement("span");
+            inner.classList.add("inner");
+
+            let span = document.createElement("span");
+            span.classList.add("mark");
+            span.style.color = "white";
+            span.style.textShadow = "rgb(255,255,255) 1px 1px 1px";
+            span.innerHTML = "_";
+
+            /* green */
+            let div = document.createElement("div");
+            div.classList.add("card__inner__plus4");
+            div.classList.add("card__plus4__green");
+            div.classList.add("green");
+            let spandiv = document.createElement("span");
+            spandiv.classList.add("inner");
+            div.appendChild(spandiv);
+
+            /* blue */
+            let div2 = document.createElement("div");
+            div2.classList.add("card__inner__plus4");
+            div2.classList.add("card__plus4__blue");
+            div2.classList.add("blue");
+            let spandiv2 = document.createElement("span");
+            spandiv2.classList.add("inner");
+            div2.appendChild(spandiv2);
+
+            /* red */
+            let div3 = document.createElement("div");
+            div3.classList.add("card__inner__plus4");
+            div3.classList.add("card__plus4__red");
+            div3.classList.add("red");
+            let spandiv3 = document.createElement("span");
+            spandiv3.classList.add("inner");
+            div3.appendChild(spandiv3);
+
+            /* yellow */
+            let div4 = document.createElement("div");
+            div4.classList.add("card__inner__plus4");
+            div4.classList.add("card__plus4__yellow");
+            div4.classList.add("yellow");
+            let spandiv4 = document.createElement("span");
+            spandiv4.classList.add("inner");
+
+
+            card.appendChild(inner);
+            inner.appendChild(span);
+            span.appendChild(div);
+            span.appendChild(div2);
+            span.appendChild(div3);
+            span.appendChild(div4);
+
+            return card;
+        }
+        else if (type === "REVERSE")
+        {
+            card.classList.add("card");
+            card.classList.add("reverse");
+            card.classList.add(color.toLowerCase());
+            if (self) card.classList.add("my-card");
+
+            let inner = document.createElement("span");
+            inner.classList.add("inner");
+
+            let span = document.createElement("span");
+            span.classList.add("mark");
+            span.innerHTML = "⇄";
+            span.style.backgroundColor = "white";
+
+            inner.appendChild(span);
+            card.appendChild(inner);
+            return card;
+        }
+    }
+    return card;
+}
+
 let rightSeatBusy = false;
 let leftSeatBusy = false;
 let topSeatBusy = false;
@@ -74,6 +273,9 @@ let mainPlayerCards = [];
 let leftPlayerCards = 0;
 let rightPlayerCards = 0;
 let topPlayerCards = 0;
+
+let deck = [];
+let currentPlayerId = "";
 
 socket.on('connect', () => {
     console.log('Connected to server');
@@ -205,10 +407,22 @@ function update()
     }
 }
 
+function deleteCards(parent)
+{
+    var card = parent.getElementsByClassName("card");
+    var cardArray = Array.from(card);
+    cardArray.forEach(function(element) {
+        element.remove();
+    });
+}
+
 function updateCards()
 {
     if (topSeatBusy)
     {
+        /* delete all the cards before update */
+        deleteCards(document.getElementById("player__topseat__cards"));
+
         if (topPlayerCards > 0)
         {
             for (let i = 0; i < topPlayerCards; i++)
@@ -232,6 +446,9 @@ function updateCards()
 
     if (leftSeatBusy)
     {
+        /* delete all the cards before update */
+        deleteCards(document.getElementById("player__leftseat"));
+
         if (leftPlayerCards > 0)
         {
             for (let i = 0; i < topPlayerCards; i++)
@@ -255,6 +472,8 @@ function updateCards()
 
     if (rightSeatBusy)
     {
+        /* delete all the cards before update */
+        deleteCards(document.getElementById("player__rightseat"));
         if (rightPlayerCards > 0)
         {
             for (let i = 0; i < topPlayerCards; i++)
@@ -279,26 +498,37 @@ function updateCards()
 
     if (bottomSeatBusy)
     {
+        /* delete all the cards before update */
+        deleteCards(document.getElementById("bottom__seat"));
         if (mainPlayerCards.length > 0)
         {
             for (let i = 0; i < mainPlayerCards.length; i++)
             {
-                let card = document.createElement("div");
-                let span = document.createElement("span");
-                let mark = document.createElement("span");
-                card.className = "card";
-                card.classList.add("my-card");
-                card.classList.add("num-"+ getValueStringToInteger(mainPlayerCards[i].value));
-                let color = String(mainPlayerCards[i].color);
-                card.classList.add(color.toLowerCase());
-                span.className = "inner";
-                mark.className = "mark";
-                mark.style.backgroundColor = "#fff";
-                mark.innerHTML = "" + getValueStringToInteger(mainPlayerCards[i].value) + "";
+                if (mainPlayerCards[i].value === "NONE")
+                {
+                    let card = createSpecificCard(mainPlayerCards[i].value, mainPlayerCards[i].color, mainPlayerCards[i].type, true);
+                    document.getElementById("bottom__seat").appendChild(card);
+                }
+                else {
 
-                card.appendChild(span);
-                span.appendChild(mark);
-                document.getElementById("bottom__seat").appendChild(card);
+
+                    let card = document.createElement("div");
+                    let span = document.createElement("span");
+                    let mark = document.createElement("span");
+                    card.className = "card";
+                    card.classList.add("my-card");
+                    card.classList.add("num-" + getValueStringToInteger(mainPlayerCards[i].value));
+                    let color = String(mainPlayerCards[i].color);
+                    card.classList.add(color.toLowerCase());
+                    span.className = "inner";
+                    mark.className = "mark";
+                    mark.style.backgroundColor = "#fff";
+                    mark.innerHTML = "" + getValueStringToInteger(mainPlayerCards[i].value) + "";
+
+                    card.appendChild(span);
+                    span.appendChild(mark);
+                    document.getElementById("bottom__seat").appendChild(card);
+                }
             }
         }
     }
@@ -340,5 +570,172 @@ socket.on('gameStarted', (game) => {
         }
     }
 
+    /* generate the deck */
+    for (let i = 0; i < game["deck"].length; i++)
+    {
+        let color = String(game["deck"][i]["color"]);
+        let value = String(game["deck"][i]["value"]);
+        let type = String(game["deck"][i]["type"]);
+        deck.push(new Card(value, color, type));
+    }
+
+    /* place the first card into the field */
+    let div = document.getElementById("card__played");
+    let els = div.getElementsByTagName("div");
+    Array.prototype.forEach.call(els, function (el) {
+       el.remove();
+    });
+
+    let firstCardColor = String(game["discardPile"][0]["color"]);
+    let firstCardValue = String(game["discardPile"][0]["value"]);
+    let firstCardType = String(game["discardPile"][0]["type"]);
+
+    let d = document.createElement("div");
+    d.className = "card";
+    d.classList.add("num-" + getValueStringToInteger(firstCardValue));
+    d.classList.add(firstCardColor.toLowerCase());
+    let span = document.createElement("span");
+    span.className = "inner";
+    let mark = document.createElement("span");
+    mark.className = "mark";
+    mark.style.backgroundColor = "#fff";
+    mark.innerHTML = "" + getValueStringToInteger(firstCardValue) + "";
+
+    d.appendChild(span);
+    span.appendChild(mark);
+    div.appendChild(d);
+
+    /* Check if the main player is his turn */
+    if (game["currentUserPlaying"]["uuid"] === playerId)
+    {
+        alertify.success("It's your turn !");
+    }
+
     updateCards();
+    currentPlayerId = game["currentUserPlaying"]["uuid"];
 });
+
+/* Call when the player click on a card */
+$(document).on("click", ".my-card", function () {
+
+    if (currentPlayerId !== playerId)
+    {
+        alertify.error("It's not your turn");
+        return;
+    }
+    let cardIndex = $(".my-card").index(this);
+    let card = mainPlayerCards[cardIndex];
+    playCard(card);
+});
+
+function playCard(card)
+{
+
+    if (card.value === "WILD" || card.value === "WILD_DRAW_FOUR")
+    {
+        let color = prompt("Choose a color (RED, BLUE, GREEN, YELLOW)");
+        if (color === null)
+        {
+            return;
+        }
+        color = color.toUpperCase();
+        if (color !== "RED" && color !== "BLUE" && color !== "GREEN" && color !== "YELLOW")
+        {
+            alertify.error("Invalid color");
+            return;
+        }
+
+        const data = {
+
+            gameId: gameId,
+            playerId: playerId,
+            card: card,
+            color: color
+
+        };
+
+        const serialized = JSON.stringify(data);
+        socket.emit('play-card', serialized);
+        return;
+    }
+
+    const data = {
+
+        gameId: gameId,
+      playerId: playerId,
+        card: card
+
+    };
+
+    const serialized = JSON.stringify(data);
+    socket.emit('play-card', serialized);
+    console.log("Card played : " + card.value + " " + card.color + " " + card.type);
+}
+
+socket.on('cardPlayed', (game) => {
+
+console.log(game);
+    let card = game["discardPile"][game["discardPile"].length - 1];
+    let div = document.getElementById("card__played");
+    let els = div.getElementsByTagName("div");
+    Array.prototype.forEach.call(els, function (el) {
+        el.remove();
+    });
+
+    let d = document.createElement("div");
+    d.className = "card";
+    d.classList.add("num-" + getValueStringToInteger(card["value"]));
+    d.classList.add(card["color"].toLowerCase());
+    let span = document.createElement("span");
+    span.className = "inner";
+    let mark = document.createElement("span");
+    mark.className = "mark";
+    mark.style.backgroundColor = "#fff";
+    mark.innerHTML = "" + getValueStringToInteger(card["value"]) + "";
+
+    d.appendChild(span);
+    span.appendChild(mark);
+    div.appendChild(d);
+
+    /* Check if the main player is his turn */
+    if (game["currentUserPlaying"]["uuid"] === playerId)
+    {
+        alertify.success("It's your turn !");
+        currentPlayerId = playerId;
+    }
+
+    /* regenerate the deck */
+    deck = [];
+    for (let i = 0; i < game["deck"].length; i++)
+    {
+        let color = String(game["deck"][i]["color"]);
+        let value = String(game["deck"][i]["value"]);
+        let type = String(game["deck"][i]["type"]);
+        deck.push(new Card(value, color, type));
+    }
+
+    /* regenerate the main player cards */
+    mainPlayerCards = [];
+    for (let i = 0; i < game["users"].length; i++)
+    {
+        if (game["users"][i]["uuid"] === playerId)
+        {
+            for (let y = 0; y < game["users"][i]["hand"].length; y++)
+            {
+                let color = String(game["users"][i]["hand"][y]["color"]);
+                let value = String(game["users"][i]["hand"][y]["value"]);
+                let type = String(game["users"][i]["hand"][y]["type"]);
+                mainPlayerCards.push(new Card(value, color, type));
+            }
+        }
+    }
+
+    /* update number of opponents cards */
+    topPlayerCards = game["users"][topSeatPlayer]["nbCards"];
+    leftPlayerCards = game["users"][leftSeatPlayer]["nbCards"];
+    rightPlayerCards = game["users"][rightSeatPlayer]["nbCards"];
+
+
+    /* Update the cards */
+    updateCards();
+})
