@@ -185,6 +185,7 @@ function createSpecificCard(value, color, type, self)
             let span = document.createElement("span");
             span.classList.add("mark");
             span.style.color = "white";
+            span.style.backgroundColor = "white";
             span.style.textShadow = "rgb(255,255,255) 1px 1px 1px";
             span.innerHTML = "_";
 
