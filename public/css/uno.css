@@ -486,3 +486,11 @@ h3 {
     margin-right: 10px;
     margin-left: 10px;
 }
+
+#cardDeckPile {
+    cursor: pointer;
+    overflow: visible;
+    width: 192px;
+    height: 178px;
+    margin-left: -192px;
+}

@@ -609,7 +609,7 @@ socket.on('gameStarted', (game) => {
     /* Check if the main player is his turn */
     if (game["currentUserPlaying"]["uuid"] === playerId)
     {
-        alertify.success("It's your turn !");
+        alertify.success("C'est à vous de jouer");
     }
 
     updateCards();
@@ -621,7 +621,7 @@ $(document).on("click", ".my-card", function () {
 
     if (currentPlayerId !== playerId)
     {
-        alertify.error("It's not your turn");
+        alertify.error("Ce n'est pas à vous de jouer");
         return;
     }
     let cardIndex = $(".my-card").index(this);
@@ -629,10 +629,83 @@ $(document).on("click", ".my-card", function () {
     playCard(card);
 });
 
+/* Call when the player click on the deck */
+$(document).on("click", "#cardDeckPile", function() {
+
+    if (currentPlayerId !== playerId)
+    {
+        alertify.error("Ce n'est pas à vous de jouer");
+        return;
+    }
+
+    if (deck.length === 0)
+    {
+        alertify.error("The deck is empty");
+        return;
+    }
+
+    const data = {
+        gameId: gameId,
+        playerId: playerId
+    };
+
+    const serialize = JSON.stringify(data);
+    socket.emit('draw-card', serialize);
+});
+
+socket.on('mainplayer-drawcard', (response) => {
+
+    if (response === "ERROR")
+    {
+        alertify.error("You can't draw a card");
+    }
+});
+
+socket.on('playerDrawed', (game) => {
+
+    if (game["currentUserPlaying"]["uuid"] === playerId)
+    {
+        alertify.success("C'est à vous de jouer");
+    }
+
+    /* regenerate the deck */
+    deck = [];
+    for (let i = 0; i < game["deck"].length; i++)
+    {
+        let color = String(game["deck"][i]["color"]);
+        let value = String(game["deck"][i]["value"]);
+        let type = String(game["deck"][i]["type"]);
+        deck.push(new Card(value, color, type));
+    }
+
+    mainPlayerCards = [];
+    for (let i = 0; i < game["users"].length; i++)
+    {
+        if (game["users"][i]["uuid"] === playerId)
+        {
+            for (let y = 0; y < game["users"][i]["hand"].length; y++)
+            {
+                let color = String(game["users"][i]["hand"][y]["color"]);
+                let value = String(game["users"][i]["hand"][y]["value"]);
+                let type = String(game["users"][i]["hand"][y]["type"]);
+                mainPlayerCards.push(new Card(value, color, type));
+            }
+        }
+    }
+
+    /* update number of opponents cards */
+    topPlayerCards = game["users"][topSeatPlayer]["nbCards"];
+    leftPlayerCards = game["users"][leftSeatPlayer]["nbCards"];
+    rightPlayerCards = game["users"][rightSeatPlayer]["nbCards"];
+
+    updateCards();
+    currentPlayerId = game["currentUserPlaying"]["uuid"];
+});
+
 function playCard(card)
 {
 
-    if (card.value === "WILD" || card.value === "WILD_DRAW_FOUR")
+    if (card.type === "WILD" || card.type === "WILD_DRAW_FOUR")
     {
         let color = prompt("Choose a color (RED, BLUE, GREEN, YELLOW)");
         if (color === null)
@@ -651,7 +724,7 @@ function playCard(card)
             gameId: gameId,
             playerId: playerId,
             card: card,
-            color: color
+            chooseColor: color
 
         };
 
@@ -664,7 +737,8 @@ function playCard(card)
 
         gameId: gameId,
       playerId: playerId,
-        card: card
+        card: card,
+        chooseColor: "NONE"
 
     };
 
@@ -683,27 +757,44 @@ console.log(game);
         el.remove();
     });
 
-    let d = document.createElement("div");
-    d.className = "card";
-    d.classList.add("num-" + getValueStringToInteger(card["value"]));
-    d.classList.add(card["color"].toLowerCase());
-    let span = document.createElement("span");
-    span.className = "inner";
-    let mark = document.createElement("span");
-    mark.className = "mark";
-    mark.style.backgroundColor = "#fff";
-    mark.innerHTML = "" + getValueStringToInteger(card["value"]) + "";
+    //if the card is a specific card
+    if (card["value"] === "NONE")
+    {
+        let e = createSpecificCard(card["value"], card["color"], card["type"], false);
+        div.appendChild(e);
+    }
+    else {
 
-    d.appendChild(span);
-    span.appendChild(mark);
-    div.appendChild(d);
+        let d = document.createElement("div");
+        d.className = "card";
+        d.classList.add("num-" + getValueStringToInteger(card["value"]));
+        d.classList.add(card["color"].toLowerCase());
+        let span = document.createElement("span");
+        span.className = "inner";
+        let mark = document.createElement("span");
+        mark.className = "mark";
+        mark.style.backgroundColor = "#fff";
+        mark.innerHTML = "" + getValueStringToInteger(card["value"]) + "";
+
+        d.appendChild(span);
+        span.appendChild(mark);
+        div.appendChild(d);
+    }
+
+    if (card["type"] === "WILD" || card["type"] === "WILD_DRAW_FOUR")
+    {
+        let colorChoose = game["currentColor"].toString().toLowerCase();
+        alertify.success("The color is now " + colorChoose);
+    }
 
     /* Check if the main player is his turn */
     if (game["currentUserPlaying"]["uuid"] === playerId)
     {
-        alertify.success("It's your turn !");
+        alertify.success("C'est à vous de jouer");
         currentPlayerId = playerId;
     }
+
+    currentPlayerId = game["currentUserPlaying"]["uuid"];
 
     /* regenerate the deck */
     deck = [];
@@ -739,4 +830,19 @@ console.log(game);
 
     /* Update the cards */
     updateCards();
+
+    /* Check if the game is over */
+    if (game["state"] === "FINISHED")
+    {
+        let winner = "";
+        for (let i = 0; i < game["users"].length; i++)
+        {
+            if (game["users"][i]["nbCards"] === 0)
+            {
+                winner = game["users"][i]["username"];
+            }
+        }
+        alert("The game is over! The winner is " + winner);
+        window.location.href = "/";
+    }
 })
