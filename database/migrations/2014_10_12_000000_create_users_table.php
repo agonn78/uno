@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string("image")->default("user.png");
             $table->integer('elo')->default(1000);
+            $table->integer('games_played')->default(0);
         });
     }
 

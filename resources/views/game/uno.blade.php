@@ -96,6 +96,8 @@
 
     let playerId = "{{ $playerUuid }}";
     let gameId = "{{ $uuid }}";
+    let elo = {{ $elo }};
+    let games_played = {{ $games_played }};
 </script>
 <script src="{{ asset('scripts/game.js') }}"></script>
 </body>

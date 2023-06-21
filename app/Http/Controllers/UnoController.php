@@ -15,6 +15,17 @@ class UnoController extends Controller
             return redirect('/');
         }
         $user = auth()->user();
-        return view('game.uno', ['uuid' => $uuid, 'playerUuid' => $user->uuid, 'game' => $response, 'user' => $user]);
+        return view('game.uno', ['uuid' => $uuid, 'playerUuid' => $user->uuid, 'game' => $response, 'user' => $user, 'elo' => $user->elo, 'games_played' => $user->games_played]);
+    }
+
+    function updateElo(Request $request)
+    {
+        $user = auth()->user();
+        $elo = $request->input('elo');
+        $gamesPlayed = $request->input('gamesPlayed');
+        $user->elo = $elo;
+        $user->games_played = $gamesPlayed;
+        $user->save();
+        return redirect()->back();
     }
 }

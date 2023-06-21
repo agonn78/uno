@@ -305,6 +305,7 @@ socket.on('get-players', (players, game) => {
     console.log(playersTab);
     console.log(game);
 
+
     /* Place the players on the table */
     for(let i = 0; i < playersTab.length; i++) {
 
@@ -747,6 +748,64 @@ function playCard(card)
     console.log("Card played : " + card.value + " " + card.color + " " + card.type);
 }
 
+let unoButton = document.getElementById("button__uno");
+unoButton.addEventListener("click", function () {
+    if (currentPlayerId !== playerId)
+    {
+        alertify.error("Ce n'est pas à vous de jouer");
+        return;
+    }
+
+    const data = {
+        gameId: gameId,
+        playerId: playerId
+    };
+
+    const serialized = JSON.stringify(data);
+
+    socket.emit('playerCallUno', serialized);
+});
+
+socket.on('playerCalledUno', (game) => {
+
+    alertify.success("Le joueur " + game["currentUserPlaying"]["username"] + " a appelé UNO");
+});
+
+socket.on('mainplayer-calluno', (response) => {
+
+    if (response === "ERROR")
+    {
+        alertify.error("Vous ne pouvez pas appeler UNO! Vous venez de piocher une carte");
+    }
+});
+
+function gameIsOver(user) {
+    alertify.alert("Game Over", "Le joueur " + user["username"] + " a gagné la partie");
+
+    /* update the elo of the user */
+    if (user["uuid"] === playerId) {
+        let newElo = elo + 10;
+        let newGamesPlayed = games_played + 1;
+        $.ajax({
+            url: "/update/" + user["uuid"] + "/elo",
+            type: "POST",
+            data: JSON.stringify({
+                elo: newElo,
+                gamesPlayed: newGamesPlayed
+            }),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            }
+        });
+    }
+
+    setTimeout(function() {
+        window.location.href = "/";
+    }, 2000);
+}
+
 socket.on('cardPlayed', (game) => {
 
 console.log(game);
@@ -764,6 +823,14 @@ console.log(game);
         div.appendChild(e);
     }
     else {
+
+        if (game["currentUserPlaying"]["uuid"] === playerId && game["currentUserPlaying"]["hand"].length === 1)
+        {
+            if (game["currentUserPlaying"]["callUno"] === false)
+            {
+                alertify.error("Vous n'avez pas appelé UNO! Vous venez de piocher 2 cartes");
+            }
+        }
 
         let d = document.createElement("div");
         d.className = "card";
@@ -839,10 +906,10 @@ console.log(game);
         {
             if (game["users"][i]["nbCards"] === 0)
             {
-                winner = game["users"][i]["username"];
+                winner = game["users"][i];
             }
         }
-        alert("The game is over! The winner is " + winner);
-        window.location.href = "/";
+
+        gameIsOver(winner);
     }
 })

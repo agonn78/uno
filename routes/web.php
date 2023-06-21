@@ -36,4 +36,7 @@ Route::middleware(['cors'])->group(function() {
         ->middleware('auth')->name('game');
 
     Route::post('/upload-image', 'ImageController@upload')->middleware('auth')->name('upload.image');
+
+    Route::post('/update/{uuid}/elo', [\App\Http\Controllers\UnoController::class, 'updateElo'])
+        ->middleware('auth')->name('update.elo');
 });

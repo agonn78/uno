@@ -93,7 +93,7 @@
                     <ul>
                         <li style="font-size: 12px; font-weight: bold">{{ $scoreboard->first()->username }}</li>
                         <li>Elo : {{ $scoreboard->first()->elo }}</li>
-                        <li>Parties jouées : 20</li>
+                        <li>Parties jouées : {{ $scoreboard->first()->games_played }}</li>
                     </ul>
                 </div>
             </div>
@@ -108,7 +108,7 @@
                         <ul>
                             <li style="font-size: 12px; font-weight: bold">{{ $player->username }}</li>
                             <li>Elo : {{ $player->elo }}</li>
-                            <li>Parties jouées : 20</li>
+                            <li>Parties jouées : {{ $player->games_played }}</li>
                         </ul>
                     </div>
                 </div>
