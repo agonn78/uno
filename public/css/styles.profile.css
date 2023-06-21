@@ -118,13 +118,29 @@ body {
     height: 624px;
 }
 
+.card__user .logo:hover::before {
+    content: "Changer l'image";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    opacity: 1;
+}
+
 .card__user .logo {
+    position: relative;
     width: 100px;
     height: 100px;
     border-radius: 50%;
     background-color: black;
     background-image: url('/images/user.png');
     background-size: cover;
+}
+
+.card__user .logo:hover {
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.5);
 }
 
 .user__stats ul {

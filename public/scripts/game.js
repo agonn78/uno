@@ -657,7 +657,7 @@ socket.on('mainplayer-drawcard', (response) => {
 
     if (response === "ERROR")
     {
-        alertify.error("You can't draw a card");
+        alertify.error("Vous ne pouvez pas tirer une carte");
     }
 });
 
@@ -707,7 +707,7 @@ function playCard(card)
 
     if (card.type === "WILD" || card.type === "WILD_DRAW_FOUR")
     {
-        let color = prompt("Choose a color (RED, BLUE, GREEN, YELLOW)");
+        let color = prompt("Choisissez une couleur (RED, BLUE, GREEN, YELLOW)");
         if (color === null)
         {
             return;
@@ -784,7 +784,7 @@ console.log(game);
     if (card["type"] === "WILD" || card["type"] === "WILD_DRAW_FOUR")
     {
         let colorChoose = game["currentColor"].toString().toLowerCase();
-        alertify.success("The color is now " + colorChoose);
+        alertify.success("Couleur choisie:  " + colorChoose);
     }
 
     /* Check if the main player is his turn */

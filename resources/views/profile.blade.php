@@ -61,7 +61,12 @@
 
 <div class="section">
     <div class="card card__user">
-        <div class="logo"></div>
+        <form id="uploadForm" style="display: none;" action="{{ route('upload.image') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="file" name="image" id="imageInput" accept="image/jpeg, image/png">
+        </form>
+        <div class="logo" style="
+        background-image:url({{ asset('images/'.$user->image) }});" id="chooseAvatar"></div>
         <div class="user__stats">
             <ul>
                 <li style="font-size: 20px; opacity: 1">{{ $user->username }}</li>
@@ -155,4 +160,38 @@
     </div>
 </div>
 </body>
+
+
+<script type="text/javascript">
+    document.getElementById("chooseAvatar").addEventListener('click', function() {
+        document.getElementById('imageInput').click();
+    });
+
+    document.getElementById('imageInput').addEventListener('change', function() {
+        document.getElementById('uploadForm').submit();
+    });
+
+    document.getElementById('uploadForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var form = event.target;
+        var formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    var logoElement = document.querySelector('.logo');
+                    logoElement.style.backgroundImage = 'url(' + data.image + ')';
+                    // Autres mises à jour nécessaires après le changement d'image
+                } else if (data.error) {
+                    console.log(data.error);
+                }
+            })
+            .catch(error => console.log(error));
+    });
+</script>
 </html>

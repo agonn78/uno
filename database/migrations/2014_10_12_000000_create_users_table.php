@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->string("image")->default("user.png");
             $table->integer('elo')->default(1000);
         });
     }
