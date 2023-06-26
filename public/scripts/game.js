@@ -811,6 +811,48 @@ function gameIsOver(user) {
     }, 2000);
 }
 
+socket.on('playerDisconnected', (game) => {
+
+    if (game["users"].length === 1)
+    {
+        gameIsOver(game["users"][0]);
+        return;
+    }
+
+    if (game["currentUserPlaying"]["uuid"] === playerId)
+    {
+        alertify.error("Le joueur a quitté la partie. C'est à vous de jouer");
+    }
+
+    /* regenerate the main player cards */
+    mainPlayerCards = [];
+    for (let i = 0; i < game["users"].length; i++)
+    {
+        if (game["users"][i]["uuid"] === playerId)
+        {
+            for (let y = 0; y < game["users"][i]["hand"].length; y++)
+            {
+                let color = String(game["users"][i]["hand"][y]["color"]);
+                let value = String(game["users"][i]["hand"][y]["value"]);
+                let type = String(game["users"][i]["hand"][y]["type"]);
+                mainPlayerCards.push(new Card(value, color, type));
+            }
+        }
+    }
+
+    /* update number of opponents cards */
+    topPlayerCards = game["users"][topSeatPlayer]["nbCards"];
+    leftPlayerCards = game["users"][leftSeatPlayer]["nbCards"];
+    rightPlayerCards = game["users"][rightSeatPlayer]["nbCards"];
+
+
+    /* Update the cards */
+    updateCards();
+
+    /* Update the current player */
+    currentPlayerId = game["currentUserPlaying"]["uuid"];
+});
+
 socket.on('cardPlayed', (game) => {
 
 console.log(game);

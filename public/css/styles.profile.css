@@ -177,7 +177,6 @@ body {
     display: flex;
     overflow-y: scroll;
     flex-direction: column;
-    justify-content: center;
 }
 
 .card__content__player {
@@ -189,7 +188,6 @@ body {
 
 .card__content__player:first-child {
     zoom: 1.2;
-    margin-top: 70px;
 }
 
 .card__content__player:last-child {
