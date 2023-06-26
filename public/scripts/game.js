@@ -291,7 +291,12 @@ var getPlayers = function(uuid) {
     socket.emit('ask-players', uuid);
 }
 
+var addSessionId = function() {
+    socket.emit('add-session-id', playerId);
+}
+
 getPlayers(gameId);
+addSessionId();
 
 
 /* Get players from the game */
