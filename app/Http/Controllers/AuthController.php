@@ -24,7 +24,7 @@ class AuthController extends Controller
             return redirect()->route('profile', ['username' => Auth::user()->username]);
         }
 
-        return redirect('/')->withErrors(['password' => 'Invalid username or password.'])
+        return redirect('/')->withErrors(['password' => 'Nom d\'utilisateur ou mot de passe incorrect.'])
             ->withInput();
     }
 
@@ -41,6 +41,6 @@ class AuthController extends Controller
         $user->email = $request->username. '@gmail.com';
         $user->save();
 
-        return redirect('/')->with('success', 'Registration successful. Please login.');
+        return redirect('/')->with('success', 'Inscription validée ! Vous pouvez vous connecter.');
     }
 }

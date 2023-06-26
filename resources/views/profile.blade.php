@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}"/>
+    <link rel="stylesheet" href=" {{ asset('css/sweetalert.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/styles.profile.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Mon profil - {{ $user->username }}</title>
@@ -10,7 +12,43 @@
 
 <script type="text/javascript">
     function createGame() {
-        $.ajax({
+        Swal.fire({
+            title: 'Créer une partie',
+            input: 'password',
+            inputLabel: 'Mot de passe de la partie (falcultatif)',
+            inputPlaceholder: 'Mot de passe',
+            inputAttributes: {
+                autocapitalize: 'off'
+            },
+            showCancelButton: true,
+            confirmButtonText: 'Créer',
+            showLoaderOnConfirm: true,
+            preConfirm: (password) => {
+                if (password === null || password === undefined || password === "")
+                    password = "none";
+                $.ajax({
+                    header: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: 'http://134.59.143.33:8080/create',
+                    type: 'POST',
+                    data: {
+                        username: '{{ $user->username }}',
+                        uuid: '{{ $user->uuid }}',
+                        password: password
+                    },
+                    success: function (data) {
+                        if (data === "error") {
+                            alert("Vous avez déjà une partie en cours !");
+                            return;
+                        }
+                        window.location.href = "http://134.59.143.33:8000/game/" + data;
+                    }
+                });
+            },
+            allowOutsideClick: () => !Swal.isLoading()
+        })
+        /*$.ajax({
             header: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -27,29 +65,72 @@
                 }
                 window.location.href = "http://134.59.143.33:8000/game/" + data;
             }
-        });
+        });*/
     }
 
-    function joinGame(id)
-    {
-        $.ajax({
-           url: 'http://134.59.143.33:8080/games/' + id + '/join',
-            type: 'POST',
-            data: {
-                username: '{{ $user->username }}',
-                uuid: '{{ $user->uuid }}',
-            },
-            success: function (data) {
-                if (data === "error") {
-                    alert("Une erreur est survenue! (Code 0x001) !");
-                    return;
+    function joinGame(game) {
+        if (game['password'] !== "") {
+            Swal.fire({
+                title: 'Mot de passe',
+                input: 'password',
+                inputLabel: 'Mot de passe de la partie',
+                inputPlaceholder: 'Mot de passe',
+                inputAttributes: {
+                    autocapitalize: 'off'
+                },
+                showCancelButton: true,
+                confirmButtonText: 'Rejoindre',
+                showLoaderOnConfirm: true,
+                preConfirm: (password) => {
+                    if (password === game['password']) {
+                        $.ajax({
+                            url: 'http://134.59.143.33:8080/games/' + game['id'] + '/join',
+                            type: 'POST',
+                            data: {
+                                username: '{{ $user->username }}',
+                                uuid: '{{ $user->uuid }}',
+                            },
+                            success: function (data) {
+                                if (data === "error") {
+                                    alert("Une erreur est survenue! (Code 0x001) !");
+                                    return;
+                                }
+
+                                window.location.href = "http://134.59.143.33:8000/game/" + game['id'];
+                            }
+                        });
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Mot de passe incorrect !',
+                        });
+                    }
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            })
+        } else {
+
+            $.ajax({
+                url: 'http://134.59.143.33:8080/games/' + game['id'] + '/join',
+                type: 'POST',
+                data: {
+                    username: '{{ $user->username }}',
+                    uuid: '{{ $user->uuid }}',
+                },
+                success: function (data) {
+                    if (data === "error") {
+                        alert("Une erreur est survenue! (Code 0x001) !");
+                        return;
+                    }
+
+                    window.location.href = "http://134.59.143.33:8000/game/" + game['id'];
                 }
+            });
 
-                window.location.href = "http://134.59.143.33:8000/game/" + id;
-            }
-        });
-
-        return 0;
+            return 0;
+        }
     }
 </script>
 
@@ -152,7 +233,7 @@
                         </div>
                     </div>
                     <div class="card__games__join">
-                        <a href="javascript:void(0);" onclick="joinGame('{{ $game['id'] }}')">Rejoindre</a>
+                        <a href="javascript:void(0);" onclick="joinGame({{ json_encode($game) }})">Rejoindre</a>
                     </div>
                     </div>
                 @endforeach
@@ -194,4 +275,6 @@
             .catch(error => console.log(error));
     });
 </script>
+
+<script src="{{ asset('scripts/sweetalert.js') }}"></script>
 </html>

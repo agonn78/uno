@@ -708,22 +708,44 @@ socket.on('playerDrawed', (game) => {
     currentPlayerId = game["currentUserPlaying"]["uuid"];
 });
 
+function getRealColor(color)
+{
+    if (color === "ROUGE")
+    {
+        return "red";
+    }
+    else if (color === "BLEU")
+    {
+        return "blue";
+    }
+    else if (color === "VERT")
+    {
+        return "green";
+    }
+    else if (color === "JAUNE")
+    {
+        return "yellow";
+    }
+}
+
 function playCard(card)
 {
 
     if (card.type === "WILD" || card.type === "WILD_DRAW_FOUR")
     {
-        let color = prompt("Choisissez une couleur (RED, BLUE, GREEN, YELLOW)");
+        let color = prompt("Choisissez une couleur (rouge, bleu, vert, jaune)");
         if (color === null)
         {
             return;
         }
         color = color.toUpperCase();
-        if (color !== "RED" && color !== "BLUE" && color !== "GREEN" && color !== "YELLOW")
+        if (color !== "ROUGE" && color !== "BLEU" && color !== "VERT" && color !== "JAUNE")
         {
-            alertify.error("Invalid color");
+            alertify.error("Couleur invalide");
             return;
         }
+        color = getRealColor(color);
+        color = color.toUpperCase();
 
         const data = {
 
