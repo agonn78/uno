@@ -982,3 +982,20 @@ console.log(game);
         gameIsOver(winner);
     }
 })
+
+let rules = document.getElementById("rules__button");
+rules.addEventListener("click", function() {
+
+    Swal.fire({
+        title: 'Règles du jeu',
+        html: '<p>Le but du jeu est de se débarrasser de toutes ses cartes. Le premier joueur qui n’a plus de cartes remporte la partie.</p>' +
+        '<p>Chaque joueur reçoit 7 cartes au début de la partie. Le reste des cartes forme la pioche. La première carte de la pioche est retournée et forme la défausse.</p>' +
+        '<p>Le joueur à la gauche du donneur commence la partie. Il doit jouer une carte de la même couleur ou avec le même symbole que la carte retournée sur la défausse. Si le joueur ne peut pas jouer, il doit piocher une carte. Si cette carte peut être jouée, il peut la jouer immédiatement. Sinon, il la conserve et passe son tour.</p>' +
+        '<p>Si le joueur ne peut pas jouer la carte piochée, il passe son tour. Si la carte piochée est une carte spéciale, le joueur doit appliquer l’effet de la carte. Si le joueur peut jouer la carte piochée, il peut la jouer immédiatement. Sinon, il la conserve et passe son tour.</p>' +
+        '<p>Si le joueur ne peut pas jouer la carte piochée, il passe son tour. Si la carte piochée est une carte spéciale, le joueur doit appliquer l’effet de la carte.</p>',
+        confirmButtonText: 'Fermer',
+        confirmButtonColor: '#3085d6',
+        showCloseButton: true,
+        focusConfirm: false,
+    })
+})

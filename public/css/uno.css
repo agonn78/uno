@@ -494,3 +494,21 @@ h3 {
     height: 178px;
     margin-left: -192px;
 }
+
+
+#rules__button
+{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100px;
+    height: 50px;
+    background: lightblue;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    line-height: 50px;
+    cursor: pointer;
+    transition: 0.5s;
+    border-radius: 10px;
+}
